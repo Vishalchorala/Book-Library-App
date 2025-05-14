@@ -9,7 +9,7 @@ const MainLayout = () => {
     <>
       <div className="h-dvh flex flex-col">
         <Navbar />
-        <div className="flex-grow pt-19">
+        <div className="flex-grow pt-16">
           <PrivateRoute>
             <Outlet />
           </PrivateRoute>
