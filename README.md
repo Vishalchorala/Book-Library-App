@@ -20,7 +20,7 @@ A modern and responsive Book Library App built with **React + Vite** that allows
 - **React** (with Vite)
 - **Redux Toolkit**
 - **React Router**
-- **Tailwind CSS / MUI** (choose depending on your project setup)
+- **Tailwind CSS**
 - **Framer Motion**
 - **RESTful Book API**
 
