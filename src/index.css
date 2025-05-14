@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* .font-v1 {
+  @apply text-xl font-semibold leading-8;
+}
+
+.button-v1 {
+  @apply p-2 border border-[#D1D1D1] rounded-full text-xs mx-10;
+}
+
+.button-v2 {
+  @apply p-2 border border-[#D1D1D1] rounded-full text-xs mx-10 bg-emerald-500 text-white;
+}
+
+@utility scrollbar-hidden {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility bg-* {
+  &: {
+    background: "--value(--color-*)";
+  }
+} */
