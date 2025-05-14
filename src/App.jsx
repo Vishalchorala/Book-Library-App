@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { paths } from "./constant/menuItems";
 import Home from "./Pages/Home";
 import Error from "./Error";
-import AddBooks from "./Pages/Addbooks";
+import AddBooks from "./Pages/AddBooks";
 import BrowseBooks from "./Pages/BrowseBooks";
 import CollectionView from "./Pages/CollectionView";
 import { Toaster } from "react-hot-toast";
