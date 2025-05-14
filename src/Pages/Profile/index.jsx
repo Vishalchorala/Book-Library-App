@@ -43,13 +43,13 @@ const Profile = () => {
     );
   }
 
-  return (
-    <div className="flex flex-col items-center justify-center w-full h-full m-3">
+  return ( 
+    <div className="flex flex-col items-center justify-center w-full h-full px-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="max-w-xl mx-auto mt-10 p-10 bg-gray-50 shadow-xl border border-gray-300 rounded-lg"
+        className=" mx-auto mt-10 p-5 sm:p-10 bg-gray-50 shadow-xl border border-gray-300 rounded-lg"
       >
         <h2 className="text-2xl font-bold mb-4 text-gray-800 text-center flex items-center justify-center gap-2">
           <Contact className="w-6 h-6" />
