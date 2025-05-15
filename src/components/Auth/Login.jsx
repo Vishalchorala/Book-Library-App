@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
@@ -7,7 +7,7 @@ import { supabase } from "../../supabaseClient";
 import { paths } from "../../constant/menuItems";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { LogIn } from "lucide-react";
+import { LogIn, Eye, EyeOff } from "lucide-react";
 
 const loginSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).required().messages({
@@ -22,6 +22,9 @@ const loginSchema = Joi.object({
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordValue, setPasswordValue] = useState("");
 
   const {
     register,
@@ -82,18 +85,29 @@ const Login = () => {
           <p className="text-red-500 text-sm mb-2">{errors.email.message}</p>
         )}
 
-        <motion.input
-          type="password"
-          placeholder="Password"
-          {...register("password")}
-          className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+        <motion.div
+          className="relative"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-        />
-        {errors.password && (
-          <p className="text-red-500 text-sm mb-2">{errors.password.message}</p>
-        )}
+        >
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            {...register("password")}
+            onChange={(e) => setPasswordValue(e.target.value)}
+            className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+          />
+          {passwordValue.length > 0 && (
+            <span
+              className="absolute right-2 top-1.5 sm:top-3 cursor-pointer text-gray-500"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </span>
+          )}
+        </motion.div>
+
 
         <motion.button
           type="submit"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
@@ -7,7 +7,7 @@ import { supabase } from "../../supabaseClient";
 import { paths } from "../../constant/menuItems";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Eye, EyeOff } from "lucide-react";
 
 const signupSchema = Joi.object({
   username: Joi.string().min(3).required().messages({
@@ -38,6 +38,11 @@ const signupSchema = Joi.object({
 
 const Signup = () => {
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [passwordValue, setPasswordValue] = useState("");
+  const [confirmValue, setConfirmValue] = useState("");
 
   const {
     register,
@@ -134,28 +139,62 @@ const Signup = () => {
           <p className="text-red-500 text-sm mb-2">{errors.email.message}</p>
         )}
 
-        <motion.input
-          type="password"
-          placeholder="Password"
-          {...register("password")}
-          className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+        <motion.div
+          className="relative"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-        />
+        >
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            {...register("password")}
+            onChange={(e) => setPasswordValue(e.target.value)}
+            className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+          />
+          {passwordValue.length > 0 && (
+            <div
+              className="absolute right-3 top-1.5 sm:top-2.5 cursor-pointer"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? (
+                <EyeOff className="w-5 h-5 text-gray-600" />
+              ) : (
+                <Eye className="w-5 h-5 text-gray-600" />
+              )}
+            </div>
+          )}
+        </motion.div>
         {errors.password && (
           <p className="text-red-500 text-sm mb-2">{errors.password.message}</p>
         )}
 
-        <motion.input
-          type="password"
-          placeholder="Confirm Password"
-          {...register("confirmPassword")}
-          className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+        <motion.div
+          className="relative"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.45 }}
-        />
+        >
+          <input
+            type={showConfirm ? "text" : "password"}
+            placeholder="Confirm Password"
+            {...register("confirmPassword")}
+            onChange={(e) => setConfirmValue(e.target.value)}
+            className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+          />
+          {confirmValue.length > 0 && (
+            <div
+              className="absolute right-3 top-1.5 sm:top-2.5 cursor-pointer"
+              onClick={() => setShowConfirm((prev) => !prev)}
+            >
+              {showConfirm ? (
+                <EyeOff className="w-5 h-5 text-gray-600" />
+              ) : (
+                <Eye className="w-5 h-5 text-gray-600" />
+              )}
+            </div>
+          )}
+        </motion.div>
         {errors.confirmPassword && (
           <p className="text-red-500 text-sm mb-2">
             {errors.confirmPassword.message}
