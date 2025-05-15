@@ -43,7 +43,7 @@ const Signup = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [passwordValue, setPasswordValue] = useState("");
   const [confirmValue, setConfirmValue] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -54,6 +54,7 @@ const Signup = () => {
   });
 
   const onSubmit = async (data) => {
+    setLoading(true); // ✅ start loading
     const { email, password } = data;
 
     const { data: existingUser, error: checkError } = await supabase
@@ -65,6 +66,7 @@ const Signup = () => {
     if (checkError === null && existingUser) {
       setError("email", { message: "Email is already registered." });
       toast.error("Email is already registered.");
+      setLoading(false); // ✅ stop loading
       return;
     }
 
@@ -79,9 +81,13 @@ const Signup = () => {
     if (error) {
       setError("root", { message: error.message });
       toast.error(error.message || "Signup failed");
+      setLoading(false); // ✅ stop loading
     } else {
       toast.success("Signup successful! Please check your email to verify.");
-      setTimeout(() => navigate(paths.login), 1500);
+      setTimeout(() => {
+        setLoading(false); // ✅ stop loading before navigating
+        navigate(paths.login);
+      }, 1500);
     }
   };
 
@@ -117,7 +123,7 @@ const Signup = () => {
           type="text"
           placeholder="Username"
           {...register("username")}
-          className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+          className="w-full p-1 sm:p-2 mb-2 px-2 border border-gray-300 rounded text-sm sm:text-[16px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
@@ -130,7 +136,7 @@ const Signup = () => {
           type="email"
           placeholder="Email"
           {...register("email")}
-          className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+          className="w-full p-1 sm:p-2 mb-2 px-2 border border-gray-300 rounded text-sm sm:text-[16px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.35 }}
@@ -150,7 +156,7 @@ const Signup = () => {
             placeholder="Password"
             {...register("password")}
             onChange={(e) => setPasswordValue(e.target.value)}
-            className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+            className="w-full p-1 sm:p-2 mb-2 px-2 border border-gray-300 rounded text-sm sm:text-[16px]"
           />
           {passwordValue.length > 0 && (
             <div
@@ -180,7 +186,7 @@ const Signup = () => {
             placeholder="Confirm Password"
             {...register("confirmPassword")}
             onChange={(e) => setConfirmValue(e.target.value)}
-            className="w-full p-1 sm:p-2 mb-2 px-2 sm:border-gray-800 border border-gray-300 rounded text-sm sm:text-[16px]"
+            className="w-full p-1 sm:p-2 mb-2 px-2 border border-gray-300 rounded text-sm sm:text-[16px]"
           />
           {confirmValue.length > 0 && (
             <div
@@ -203,12 +209,16 @@ const Signup = () => {
 
         <motion.button
           type="submit"
-          className="w-full font-bold bg-gradient-to-br from-blue-600 to-purple-600 text-white py-2 mt-2 rounded hover:bg-green-700 cursor-pointer"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          disabled={loading}
+          className={`w-full font-bold text-white py-2 mt-2 rounded transition-all ${loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-gradient-to-br from-blue-600 to-purple-600 hover:bg-green-700 cursor-pointer"
+            }`}
+          whileHover={!loading ? { scale: 1.02 } : {}}
+          whileTap={!loading ? { scale: 0.98 } : {}}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          Sign Up
+          {loading ? "Signing Up..." : "Sign Up"}
         </motion.button>
 
         <motion.div
