@@ -17,7 +17,7 @@ A modern and responsive Book Library App built with **React + Vite** that allows
 
 ## 🛠 Tech Stack
 
-- **React** (with Vite)
+- **React Vite** 
 - **Redux Toolkit**
 - **React Router**
 - **Tailwind CSS**
